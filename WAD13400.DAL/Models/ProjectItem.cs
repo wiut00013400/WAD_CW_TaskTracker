@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace WAD13400.Models
+namespace WAD13400.DAL.Models
 {
     public class ProjectItem
     {

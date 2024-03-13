@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WAD13400.Data;
+using WAD13400.DAL.Data;
 
 #nullable disable
 
-namespace WAD13400.Data.Migrations
+namespace WAD13400.DAL.Data.Migrations
 {
     [DbContext(typeof(TaskTrackerDbContext))]
     [Migration("20240312164905_InitialMigration")]
@@ -25,7 +25,7 @@ namespace WAD13400.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("WAD13400.Models.ProjectItem", b =>
+            modelBuilder.Entity("WAD13400.DAL.Models.ProjectItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -57,7 +57,7 @@ namespace WAD13400.Data.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("WAD13400.Models.TaskItem", b =>
+            modelBuilder.Entity("WAD13400.DAL.Models.TaskItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -95,16 +95,16 @@ namespace WAD13400.Data.Migrations
                     b.ToTable("Tasks");
                 });
 
-            modelBuilder.Entity("WAD13400.Models.TaskItem", b =>
+            modelBuilder.Entity("WAD13400.DAL.Models.TaskItem", b =>
                 {
-                    b.HasOne("WAD13400.Models.ProjectItem", "Project")
+                    b.HasOne("WAD13400.DAL.Models.ProjectItem", "Project")
                         .WithMany("Tasks")
                         .HasForeignKey("ProjectId");
 
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("WAD13400.Models.ProjectItem", b =>
+            modelBuilder.Entity("WAD13400.DAL.Models.ProjectItem", b =>
                 {
                     b.Navigation("Tasks");
                 });

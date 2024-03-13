@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Evaluation;
 using Microsoft.EntityFrameworkCore;
-using WAD13400.Data;
-using WAD13400.Models;
+using WAD13400.DAL.Models;
+using WAD13400.DAL.Repositories;
 
 namespace WAD13400.Controllers
 {
@@ -15,58 +15,45 @@ namespace WAD13400.Controllers
     [ApiController]
     public class TaskItemsController : ControllerBase
     {
-        private readonly TaskTrackerDbContext _context;
+        private readonly IRepository<TaskItem> _taskRepository;
 
-        public TaskItemsController(TaskTrackerDbContext context)
+        public TaskItemsController(IRepository<TaskItem> repository)
         {
-            _context = context;
+            _taskRepository = repository;
         }
 
         // GET: api/TaskItems
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TaskItem>>> GetTasks()
         {
-            return await _context.Tasks.Include(t => t.Project).ToListAsync();
+            return Ok(await _taskRepository.GetAllAsync());
         }
 
         // GET: api/TaskItems/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TaskItem>> GetTaskItem(int id)
         {
-            var taskItem = await _context.Tasks.Include(t => t.Project).FirstOrDefaultAsync(t => t.Id == id);
-
-            if (taskItem == null)
+            try
             {
-                return NotFound();
+                return Ok(await _taskRepository.GetByIDAsync(id));
             }
-
-            return taskItem;
+            catch
+            {
+                throw;
+            }
         }
 
         // PUT: api/TaskItems
         [HttpPut]
         public async Task<IActionResult> PutTaskItem(TaskItem taskItem)
         {
-            var projectExists = await _context.Projects.AnyAsync(p => p.Id == taskItem.ProjectId);
-            if (!projectExists)
-            {
-                return BadRequest("The specified ProjectId does not exist.");
-            }
-            _context.Entry(taskItem).State = EntityState.Modified;
             try
             {
-                await _context.SaveChangesAsync();
+                await _taskRepository.UpdateAsync(taskItem);
             }
             catch (Exception)
             {
-                if (!TaskItemExists(taskItem.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return NoContent();
@@ -76,23 +63,14 @@ namespace WAD13400.Controllers
         [HttpPost]
         public async Task<ActionResult<TaskItem>> PostTaskItem(TaskItem taskItem)
         {
-            var p = await _context.Projects
-                .Include(p => p.Tasks) // Make sure Tasks collection is loaded
-                .FirstOrDefaultAsync(p => p.Id == taskItem.ProjectId);
-
-            if (p != null)
+            try
             {
-                p.Tasks.Add(taskItem);
-                _context.Entry(p).State = EntityState.Modified;
+                await _taskRepository.AddAsync(taskItem);
             }
-            else
+            catch (Exception)
             {
-                return BadRequest("The specified ProjectId does not exist.");
+                throw;
             }
-
-            _context.Tasks.Add(taskItem);
-
-            await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTaskItem", new { id = taskItem.Id }, taskItem);
         }
@@ -101,21 +79,15 @@ namespace WAD13400.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTaskItem(int id)
         {
-            var taskItem = await _context.Tasks.FindAsync(id);
-            if (taskItem == null)
+            try
             {
-                return NotFound();
+                await _taskRepository.DeleteAsync(id);
             }
-
-            _context.Tasks.Remove(taskItem);
-            await _context.SaveChangesAsync();
-
+            catch
+            {
+                throw;
+            }
             return NoContent();
-        }
-
-        private bool TaskItemExists(int id)
-        {
-            return _context.Tasks.Any(e => e.Id == id);
         }
     }
 }

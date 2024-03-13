@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WAD13400.Models;
+using WAD13400.DAL.Models;
 
-namespace WAD13400.Data
+namespace WAD13400.DAL.Data
 {
     public class TaskTrackerDbContext : DbContext
     {

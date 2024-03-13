@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WAD13400.Data;
-using WAD13400.Models;
+using WAD13400.DAL.Data;
+using WAD13400.DAL.Models;
+using WAD13400.DAL.Repositories;
 
 namespace WAD13400.Controllers
 {
@@ -14,53 +15,45 @@ namespace WAD13400.Controllers
     [ApiController]
     public class ProjectItemsController : ControllerBase
     {
-        private readonly TaskTrackerDbContext _context;
+        private readonly IRepository<ProjectItem> _projectRepository;
 
-        public ProjectItemsController(TaskTrackerDbContext context)
+        public ProjectItemsController(IRepository<ProjectItem> projectRepository)
         {
-            _context = context;
+            _projectRepository = projectRepository;
         }
 
         // GET: api/ProjectItems
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProjectItem>>> GetProjects()
         {
-            return await _context.Projects.Include(p => p.Tasks).ToListAsync();
+            return Ok(await _projectRepository.GetAllAsync());
         }
 
         // GET: api/ProjectItems/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ProjectItem>> GetProjectItem(int id)
         {
-            //var projectItem = await _context.Projects.FindAsync(id);
-            var projectItem = await _context.Projects.Include(t => t.Tasks).FirstOrDefaultAsync(t => t.Id == id);
-            if (projectItem == null)
+            try
             {
-                return NotFound();
+                return Ok(await _projectRepository.GetByIDAsync(id));
             }
-
-            return projectItem;
+            catch
+            {
+                throw;
+            }
         }
 
         // PUT: api/ProjectItems
         [HttpPut]
         public async Task<IActionResult> PutProjectItem(ProjectItem projectItem)
         {
-            _context.Entry(projectItem).State = EntityState.Modified;
             try
             {
-                await _context.SaveChangesAsync();
+                await _projectRepository.UpdateAsync(projectItem);
             }
             catch (Exception)
             {
-                if (!ProjectItemExists(projectItem.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return NoContent();
@@ -70,8 +63,7 @@ namespace WAD13400.Controllers
         [HttpPost]
         public async Task<ActionResult<ProjectItem>> PostProjectItem(ProjectItem projectItem)
         {
-            _context.Projects.Add(projectItem);
-            await _context.SaveChangesAsync();
+            await _projectRepository.AddAsync(projectItem);
 
             return CreatedAtAction("GetProjectItem", new { id = projectItem.Id }, projectItem);
         }
@@ -80,21 +72,15 @@ namespace WAD13400.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProjectItem(int id)
         {
-            var projectItem = await _context.Projects.FindAsync(id);
-            if (projectItem == null)
+            try
             {
-                return NotFound();
+                await _projectRepository.DeleteAsync(id);
             }
-
-            _context.Projects.Remove(projectItem);
-            await _context.SaveChangesAsync();
-
+            catch
+            {
+                throw;
+            }
             return NoContent();
-        }
-
-        private bool ProjectItemExists(int id)
-        {
-            return _context.Projects.Any(e => e.Id == id);
         }
     }
 }

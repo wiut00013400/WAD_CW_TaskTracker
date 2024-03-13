@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace WAD13400.Data.Migrations
+namespace WAD13400.DAL.Data.Migrations
 {
     /// <inheritdoc />
     public partial class InitialMigration : Migration

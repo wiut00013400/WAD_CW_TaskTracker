@@ -4,9 +4,9 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.EntityFrameworkCore;
-using WAD13400.Data;
+using WAD13400.DAL.Data;
 
-namespace WAD13400.Models
+namespace WAD13400.DAL.Models
 {
     public class TaskItem
     {
