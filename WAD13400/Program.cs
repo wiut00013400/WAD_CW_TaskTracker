@@ -1,14 +1,21 @@
 using Microsoft.EntityFrameworkCore;
-using WAD13400.Controllers;
-using System.Text.Json.Serialization;
-using System.Text.Json;
 using WAD13400.DAL.Data;
 using WAD13400.DAL.Repositories;
 using WAD13400.DAL.Models;
 
+var allowSpecificOrigins = "_allowSpecificOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(allowSpecificOrigins, policy =>
+    {
+        policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+    });
+}); // add cors to allow send requests with any headers/methods from the origin of localhost:4200
+// localhost:4200 is where Angular app runs
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -31,6 +38,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(allowSpecificOrigins);
 
 app.UseAuthorization();
 
