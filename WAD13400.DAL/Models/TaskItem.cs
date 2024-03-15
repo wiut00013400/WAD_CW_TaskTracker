@@ -10,16 +10,34 @@ namespace WAD13400.DAL.Models
 {
     public class TaskItem
     {
+        private string name;
+        private string contributionComment;
+
         public int Id { get; set; }
-        public required string Name { get; set; }
+        public required string Name { 
+            get => name;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(name))
+                    throw new Exception("Task name cannot be empty!");
+                name = value;
+            }
+        }
         public string? Description { get; set; }
         public DateTime DueDate { get; set; }
-        public required string ContributionComment { get; set; }
+        public required string ContributionComment { get => contributionComment;
+            set 
+            {
+                if (!string.IsNullOrWhiteSpace(contributionComment))
+                    throw new Exception("Contribution comment must be present!");
+                contributionComment = value;
+            }
+        }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public int? ProjectId { get; set; }
         [ForeignKey("ProjectId")]
-        [JsonIgnore] // done to avoid circular serialization error
+        //[JsonIgnore] // done to avoid circular serialization error
         public ProjectItem? Project { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Build.Evaluation;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,12 @@ namespace WAD13400.DAL.Repositories
             {
                 throw new Exception("The specified project id wasn't found.");
             }
-
+            var associatedTasks = _context.Tasks.Where(t => t.ProjectId == id);
+            foreach (var task in associatedTasks)
+            {
+                task.ProjectId = null;
+                _context.Entry(task).State = EntityState.Modified;
+            }
             _context.Projects.Remove(projectItem);
             await _context.SaveChangesAsync();
         }
