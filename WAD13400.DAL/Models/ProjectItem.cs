@@ -10,7 +10,7 @@ namespace WAD13400.DAL.Models
         public required string Name { get => name;
             set
             {
-                if (string.IsNullOrWhiteSpace(name))
+                if (string.IsNullOrWhiteSpace(value))
                     throw new Exception("Project must have a name!");
                 name = value;
             }

@@ -18,7 +18,7 @@ namespace WAD13400.DAL.Models
             get => name;
             set
             {
-                if (string.IsNullOrWhiteSpace(name))
+                if (string.IsNullOrWhiteSpace(value))
                     throw new Exception("Task name cannot be empty!");
                 name = value;
             }
@@ -28,7 +28,7 @@ namespace WAD13400.DAL.Models
         public required string ContributionComment { get => contributionComment;
             set 
             {
-                if (!string.IsNullOrWhiteSpace(contributionComment))
+                if (string.IsNullOrWhiteSpace(value))
                     throw new Exception("Contribution comment must be present!");
                 contributionComment = value;
             }
