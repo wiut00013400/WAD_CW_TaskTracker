@@ -5,7 +5,7 @@ This application was developed for Web Application module, as coursework portfol
 ## The topic calculation
 13400 / 20 = 670.00 => the remainder is 0 => the task is Task Tracker
 
-## Application prerequisits
+## Application prerequisites
 ### ASP.NET Web API Project:
 1. Open the ASP.NET Web API project in Visual Studio or your preferred code editor.
 2. Restore the NuGet packages if necessary.
