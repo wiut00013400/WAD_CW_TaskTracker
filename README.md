@@ -16,3 +16,25 @@ This application was developed for Web Application module, as coursework portfol
 2. Run npm install to install the project dependencies.
 3. After the dependencies are installed, run ng serve to start the Angular development server.
 4. Once the server is running, open your web browser and navigate to http://localhost:4200/ to access the Angular app.
+
+## References
+
+The following packages are used in this project:
+
+- **Microsoft.AspNetCore.OpenApi**
+  - Version: 8.0.2
+
+- **Microsoft.EntityFrameworkCore**
+  - Version: 8.0.2
+
+- **Microsoft.EntityFrameworkCore.SqlServer**
+  - Version: 8.0.2
+
+- **Microsoft.EntityFrameworkCore.Tools**
+  - Version: 8.0.2
+
+- **Microsoft.VisualStudio.Web.CodeGeneration.Design**
+  - Version: 8.0.1
+
+- **Swashbuckle.AspNetCore**
+  - Version: 6.5.0
