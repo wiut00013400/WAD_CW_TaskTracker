@@ -1,0 +1,38 @@
+<div class="p-8 mt-8 flex justify-center">
+    <form class="shadow border w-4/12 p-4">
+        <div class="flex">
+            <mat-form-field class="w-full">
+                <mat-label>Project Name</mat-label>
+                <input matInput name="name" type="text" [(ngModel)]="projectItem.name">
+            </mat-form-field>
+        </div>
+        <div class="flex">
+            <mat-form-field class="w-full">
+                <mat-label>Project Description</mat-label>
+                <input matInput name="description" type="text" [(ngModel)]="projectItem.description">
+            </mat-form-field>
+        </div>
+        <div class="flex">
+            <mat-form-field>
+                <mat-label>Choose the start date:</mat-label>
+                <input matInput [matDatepicker]="startDatePicker" name="startDate" [(ngModel)]="projectItem.startDate">
+                <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #startDatePicker></mat-datepicker>
+              </mat-form-field>
+        </div>
+        <div class="flex">
+            <mat-form-field>
+                <mat-label>Choose the end date:</mat-label>
+                <input matInput [matDatepicker]="endDatePicker" name="endDate" [(ngModel)]="projectItem.endDate">
+                <mat-datepicker-toggle matIconSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #endDatePicker></mat-datepicker>
+              </mat-form-field>
+        </div>
+        <div class="flex justify-around">
+            <button mat-raised-button  (click)="goHome()">Cancel</button>
+            <button mat-raised-button color="primary" (click)="edit()">Edit</button>
+        </div>
+    </form>
+</div>
+
+
