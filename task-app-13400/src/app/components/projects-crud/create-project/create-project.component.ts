@@ -43,4 +43,7 @@ export class CreateProjectComponent {
     }
   });
   };
+  cancel(){
+    this.router.navigateByUrl("home");
+  }
 }

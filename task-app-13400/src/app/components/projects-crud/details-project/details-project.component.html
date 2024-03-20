@@ -1,8 +1,8 @@
 <div class="flex mt-8 justify-center">
-    <mat-card class="shadow w-4/12" *ngIf="projectDetails">
+    <mat-card class="shadow w-6/12" *ngIf="projectDetails">
         <mat-card-content>
-            <div class="p-8">
-                <h2 class="text-3xl font-bold mb-4">{{ projectDetails.name }}</h2>
+            <div class="p-10">
+                <h2 class="text-3xl font-bold mb-6">{{ projectDetails.name }}</h2>
                 <p class="text-slate-500">{{ projectDetails.description }}</p>
                 <p><span class="font-medium">Start Date: </span><span class="text-slate-500">{{ projectDetails.startDate }}</span></p>
                 <p><span class="font-medium">End Date: </span><span class="text-slate-500">{{ projectDetails.endDate ? projectDetails.endDate : "N/A" }}</span></p>

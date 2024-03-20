@@ -58,4 +58,8 @@ export class CreateTaskComponent {
       }
     });
   };
+
+  cancel() {
+    this.router.navigateByUrl("home")
+  }
 }
