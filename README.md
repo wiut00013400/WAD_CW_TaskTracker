@@ -9,8 +9,9 @@ This application was developed for Web Application module, as coursework portfol
 ### ASP.NET Web API Project:
 1. Open the ASP.NET Web API project in Visual Studio or your preferred code editor.
 2. Restore the NuGet packages if necessary.
-3. Build the solution to ensure all dependencies are resolved.
-4. Press F5 or click on the "Start" button to run the Web API project. Ensure that the project is running on the correct port (5187).
+3. In the NuGet package manager console, run "Update-Database" command.
+4. Build the solution to ensure all dependencies are resolved.
+5. Press F5 or click on the "Start" button to run the Web API project. Ensure that the project is running on the correct port (5187).
 ### Angular App:
 1. Navigate to the task-app-13400 folder containing the Angular app in your terminal or command prompt.
 2. Run npm install to install the project dependencies.
